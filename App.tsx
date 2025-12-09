@@ -5,7 +5,7 @@ import { sendMessageToGemini } from './services/geminiService';
 import { fileToBase64, parseDataFile } from './utils/helpers';
 import ChatBubble from './components/ChatBubble';
 import ToolsPanel from './components/ToolsPanel';
-import CalculatorPanel from './components/Calculator.tsx';
+import CalculatorPanel from './components/Calculator';
 
 const HISTORY_KEY = 'distillai_sessions';
 const THEME_KEY = 'distillai_theme';
@@ -303,7 +303,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Input Area */}
-            <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-3 pb-safe z-30 transition-colors">
+            <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-3 pb-6 z-30 transition-colors">
             <div className="max-w-3xl mx-auto flex flex-col gap-2">
                 
                 {/* Selected Images Preview */}

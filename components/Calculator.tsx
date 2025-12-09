@@ -3,7 +3,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, AreaChart, Area, ComposedChart, Bar 
 } from 'recharts';
 import { 
-  Thermometer, Activity, Calculator, ArrowRight, RefreshCw, 
+  Thermometer, Activity, Calculator, ArrowRight, 
   FlaskConical, TrendingUp, Droplets, Gauge, Zap
 } from 'lucide-react';
 import { 
@@ -180,13 +180,15 @@ const CalculatorPanel: React.FC = () => {
           />
         </div>
         
-        {/* Advanced Tools Section - Smaller */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+        {/* Advanced Tools Section */}
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar">
            <span className="text-xs font-bold text-slate-400 uppercase tracking-wide self-center mr-2 hidden md:block">Advanced:</span>
            <button 
              onClick={() => setModule('mccabe')} 
              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors border ${
-               module === 'mccabe' ? 'bg-indigo-100 text-indigo-700 border-indigo-200' : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
+               module === 'mccabe' 
+               ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800' 
+               : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
              }`}
            >
              McCabe-Thiele
@@ -194,7 +196,9 @@ const CalculatorPanel: React.FC = () => {
            <button 
              onClick={() => setModule('batch')} 
              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors border ${
-               module === 'batch' ? 'bg-indigo-100 text-indigo-700 border-indigo-200' : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
+               module === 'batch' 
+               ? 'bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800' 
+               : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
              }`}
            >
              Batch Distillation
@@ -333,7 +337,7 @@ const CalculatorPanel: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                         <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
                         <YAxis label={{ value: 'Temperature (°C)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
                         <Area type="monotone" dataKey="temperature" stroke="#f97316" strokeWidth={3} fill="url(#colorTemp)" isAnimationActive={false} />
                      </AreaChart>
                    ) : module === 'antoine' ? (
@@ -347,7 +351,7 @@ const CalculatorPanel: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                         <XAxis dataKey="temperature" label={{ value: 'Temperature (°C)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
                         <YAxis label={{ value: 'Pressure (mmHg)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
                         <Area type="monotone" dataKey="pressure" stroke="#8b5cf6" strokeWidth={3} fill="url(#colorPress)" isAnimationActive={false} />
                         <ReferenceLine y={760} stroke="#ef4444" label="1 atm" strokeDasharray="3 3" />
                       </AreaChart>
@@ -362,7 +366,7 @@ const CalculatorPanel: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                         <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
                         <YAxis label={{ value: 'Conductivity (µS/cm)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
                         <Area type="monotone" dataKey="conductivity" stroke="#10b981" strokeWidth={3} fill="url(#colorCond)" isAnimationActive={false} />
                       </AreaChart>
                    ) : module === 'flow' ? (
@@ -371,7 +375,7 @@ const CalculatorPanel: React.FC = () => {
                         <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
                         <YAxis yAxisId="left" label={{ value: 'Flow (mL/min)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
                         <YAxis yAxisId="right" orientation="right" label={{ value: 'Total (L)', angle: 90, position: 'insideRight', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
                         <Legend verticalAlign="top" height={36}/>
                         <Area yAxisId="left" type="monotone" dataKey="flowRate" fill="#3b82f6" stroke="#3b82f6" fillOpacity={0.1} name="Flow Rate" isAnimationActive={false} />
                         <Line yAxisId="right" type="monotone" dataKey="totalVolume" stroke="#f59e0b" strokeWidth={3} dot={false} name="Total Volume" isAnimationActive={false} />
@@ -382,7 +386,7 @@ const CalculatorPanel: React.FC = () => {
                         <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
                         <YAxis yAxisId="left" label={{ value: 'Energy (kWh)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
                         <YAxis yAxisId="right" orientation="right" label={{ value: 'Cost ($)', angle: 90, position: 'insideRight', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
                         <Legend verticalAlign="top" height={36}/>
                         <Bar yAxisId="left" dataKey="energy" fill="#eab308" name="Energy (kWh)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
                         <Line yAxisId="right" type="monotone" dataKey="cost" stroke="#22c55e" strokeWidth={3} dot={false} name="Cost ($)" isAnimationActive={false} />
@@ -392,7 +396,7 @@ const CalculatorPanel: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" strokeOpacity={0.5} />
                         <XAxis dataKey="x" type="number" domain={[0, 1]} label={{ value: 'x (Liquid Phase)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
                         <YAxis domain={[0, 1]} label={{ value: 'y (Vapor Phase)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
-                        <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
                         <Legend verticalAlign="top" height={36}/>
                         <Line name="y=x" type="monotone" dataKey="xLine" stroke="#cbd5e1" strokeDasharray="5 5" strokeWidth={1} dot={false} isAnimationActive={false} />
                         <Line name="Equilibrium" type="monotone" dataKey="yEq" stroke="#3b82f6" strokeWidth={3} dot={false} isAnimationActive={false} />
@@ -403,7 +407,7 @@ const CalculatorPanel: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                         <XAxis dataKey="percentDistilled" label={{ value: '% Distilled', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
                         <YAxis domain={[0, 1]} label={{ value: 'Mole Fraction', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
-                        <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
                         <Legend verticalAlign="top" height={36}/>
                         <Line name="Residue (x_w)" type="monotone" dataKey="residueComposition" stroke="#10b981" strokeWidth={3} dot={false} isAnimationActive={false} />
                         <Line name="Distillate (x_d)" type="monotone" dataKey="distillateComposition" stroke="#f59e0b" strokeWidth={2} strokeDasharray="3 3" dot={false} isAnimationActive={false} />
@@ -428,11 +432,11 @@ const CalculatorPanel: React.FC = () => {
                    value={
                     module === 'heating' ? `${tMax.toFixed(1)}°C` :
                     module === 'antoine' ? `${(selectedSubstance.B / (selectedSubstance.A - Math.log10(760)) - selectedSubstance.C).toFixed(1)}°C` :
-                    module === 'conductivity' ? `${condData[condData.length-1].conductivity} µS` :
-                    module === 'flow' ? `${flowData[flowData.length-1].flowRate} mL/m` :
-                    module === 'power' ? `${powerData[powerData.length-1].energy} kWh` :
+                    module === 'conductivity' ? `${condData[condData.length-1]?.conductivity ?? 0} µS` :
+                    module === 'flow' ? `${flowData[flowData.length-1]?.flowRate ?? 0} mL/m` :
+                    module === 'power' ? `${powerData[powerData.length-1]?.energy ?? 0} kWh` :
                     module === 'mccabe' ? `${(1/(alpha-1)).toFixed(2)}` :
-                    batchData[batchData.length-1]?.residueComposition.toFixed(3)
+                    (batchData[batchData.length-1]?.residueComposition ?? 0).toFixed(3)
                    }
                    color="text-slate-800 dark:text-white"
                  />
@@ -454,10 +458,10 @@ const CalculatorPanel: React.FC = () => {
                     module === 'heating' ? `${(1/k).toFixed(1)} min` :
                     module === 'antoine' ? `${antoineData[antoineData.length-1]?.pressure.toFixed(0)} mmHg` :
                     module === 'conductivity' ? `${((1 - condFinal/condInit)*100).toFixed(0)}%` :
-                    module === 'flow' ? `${flowData[flowData.length-1].totalVolume} L` :
-                    module === 'power' ? `$${powerData[powerData.length-1].cost}` :
+                    module === 'flow' ? `${flowData[flowData.length-1]?.totalVolume ?? 0} L` :
+                    module === 'power' ? `$${powerData[powerData.length-1]?.cost ?? 0}` :
                     module === 'mccabe' ? alpha.toFixed(1) :
-                    `${(100 - (batchData[batchData.length-1]?.residueComposition / batchXf * 100)).toFixed(1)}%`
+                    `${(100 - ((batchData[batchData.length-1]?.residueComposition ?? 0) / batchXf * 100)).toFixed(1)}%`
                    }
                    color="text-slate-800 dark:text-white"
                  />
