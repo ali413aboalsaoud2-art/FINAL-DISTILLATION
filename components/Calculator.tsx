@@ -4,7 +4,7 @@ import {
 } from 'recharts';
 import { 
   Thermometer, Activity, Calculator, ArrowRight, 
-  FlaskConical, TrendingUp, Droplets, Gauge, Zap
+  FlaskConical, TrendingUp, Droplets, Gauge, Zap, RotateCcw, Download
 } from 'lucide-react';
 import { 
   SUBSTANCES, generateAntoineData, generateMcCabeThieleData, 
@@ -129,10 +129,50 @@ const CalculatorPanel: React.FC<CalculatorPanelProps> = ({ isDarkMode }) => {
   const batchData = useMemo(() => generateRayleighData(batchAlpha, 100, batchXf), [batchAlpha, batchXf]);
 
 
+  // Helper Functions
+  const handleReset = () => {
+    if (module === 'heating') { setT0(20); setTMax(100); setK(0.10); }
+    if (module === 'antoine') { setSelectedSubstance(SUBSTANCES[0]); setPressureTempRange(120); }
+    if (module === 'conductivity') { setCondInit(150); setCondFinal(2); setCondRate(0.15); }
+    if (module === 'flow') { setFlowPower(2000); setFlowEff(0.85); }
+    if (module === 'power') { setPowerWatts(2000); setPowerCost(0.15); }
+    if (module === 'mccabe') { setAlpha(2.5); setRefluxRatio(2.0); setDistillatePurity(0.95); }
+    if (module === 'batch') { setBatchAlpha(3.0); setBatchXf(0.5); }
+  };
+
+  const handleExport = () => {
+    let data: any[] = [];
+    let filename = 'distillai-data.csv';
+
+    if (module === 'heating') { data = heatingData; filename = 'heating-curve.csv'; }
+    if (module === 'antoine') { data = antoineData; filename = `vapor-pressure-${selectedSubstance.name}.csv`; }
+    if (module === 'conductivity') { data = condData; filename = 'purity-log.csv'; }
+    if (module === 'flow') { data = flowData; filename = 'flow-production.csv'; }
+    if (module === 'power') { data = powerData; filename = 'power-consumption.csv'; }
+    if (module === 'mccabe') { data = mccabeData; filename = 'mccabe-thiele.csv'; }
+    if (module === 'batch') { data = batchData; filename = 'batch-distillation.csv'; }
+
+    if (!data.length) return;
+
+    // Convert to CSV
+    const headers = Object.keys(data[0]).join(',');
+    const rows = data.map(obj => Object.values(obj).join(',')).join('\n');
+    const csvContent = `data:text/csv;charset=utf-8,${headers}\n${rows}`;
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
   const MetricItem = ({ label, value, color }: { label: string, value: string, color: string }) => (
     <div className="flex flex-col">
        <span className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">{label}</span>
-       <span className={`text-lg font-bold ${color}`}>{value}</span>
+       <span className={`text-lg font-bold ${color}`}>{value ?? '-'}</span>
     </div>
   );
 
@@ -148,13 +188,30 @@ const CalculatorPanel: React.FC<CalculatorPanelProps> = ({ isDarkMode }) => {
       <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
         
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-             Distillation Formulas
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            Interactive parameter modeling and visualization
-          </p>
+        <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+               Distillation Formulas
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
+              Interactive parameter modeling and visualization
+            </p>
+          </div>
+          
+          <div className="flex gap-2">
+            <button 
+              onClick={handleReset}
+              className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            >
+              <RotateCcw size={14} /> Reset
+            </button>
+            <button 
+              onClick={handleExport}
+              className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/20 border border-brand-100 dark:border-brand-800 rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors"
+            >
+              <Download size={14} /> Export CSV
+            </button>
+          </div>
         </div>
 
         {/* Operational Tabs */}

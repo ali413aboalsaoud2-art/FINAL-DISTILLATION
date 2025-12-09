@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CheckCircle2, Circle, AlertTriangle, Calendar, Clock, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CheckCircle2, Circle, AlertTriangle, Calendar, Clock, ChevronRight, Save } from 'lucide-react';
 
 const TASKS = [
   {
@@ -53,8 +53,23 @@ const TASKS = [
   }
 ];
 
+const STORAGE_KEY = 'distillai_maintenance_checked';
+
 const Maintenance: React.FC = () => {
-  const [checked, setChecked] = useState<number[]>([]);
+  // Initialize from local storage if available
+  const [checked, setChecked] = useState<number[]>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  // Save to local storage whenever checked state changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+  }, [checked]);
 
   const toggleCheck = (id: number) => {
     setChecked(prev => 
@@ -70,16 +85,21 @@ const Maintenance: React.FC = () => {
 
   return (
     <div className="h-full overflow-y-auto bg-slate-50 dark:bg-slate-950 p-4 md:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-10">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Maintenance Hub</h1>
-          <p className="text-slate-500 dark:text-slate-400">Track and manage critical service tasks for your distillation unit.</p>
+      <div className="max-w-4xl mx-auto pb-10">
+        <header className="mb-10 flex justify-between items-end">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Maintenance Hub</h1>
+            <p className="text-slate-500 dark:text-slate-400">Track and manage critical service tasks for your distillation unit.</p>
+          </div>
+          <div className="hidden md:flex items-center gap-2 text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-full font-medium">
+             <Save size={14} /> Autosave Active
+          </div>
         </header>
 
         {/* Status Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {['Daily', 'Weekly', 'Monthly'].map((freq) => (
-            <div key={freq} className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm relative overflow-hidden">
+            <div key={freq} className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm relative overflow-hidden transition-all hover:shadow-md">
                <div className="flex justify-between items-start mb-4">
                  <div>
                     <h3 className="font-bold text-slate-700 dark:text-slate-200">{freq} Tasks</h3>
@@ -108,7 +128,7 @@ const Maintenance: React.FC = () => {
             if (sectionTasks.length === 0) return null;
 
             return (
-              <div key={section} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+              <div key={section} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                 <div className="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
                    <Clock size={16} className="text-slate-400" />
                    <h2 className="font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wide text-sm">{section} Protocol</h2>

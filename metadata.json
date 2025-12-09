@@ -1,5 +1,5 @@
 {
   "name": "DistillAI Expert",
-  "description": "An expert AI assistant for distillation operations, maintenance, and troubleshooting. Features graph analysis, output prediction, and web-grounded knowledge.",
+  "description": "Professional distillation dashboard featuring interactive parameter modeling, real-time visualization, maintenance tracking, and standard operating procedures.",
   "requestFramePermissions": []
 }
