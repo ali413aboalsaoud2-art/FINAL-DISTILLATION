@@ -4,7 +4,7 @@ import {
 } from 'recharts';
 import { 
   Thermometer, Activity, Calculator, ArrowRight, 
-  FlaskConical, TrendingUp, Droplets, Gauge, Zap, RotateCcw, Download
+  FlaskConical, TrendingUp, Droplets, Gauge, Zap, RotateCcw
 } from 'lucide-react';
 import { 
   SUBSTANCES, generateAntoineData, generateMcCabeThieleData, 
@@ -140,35 +140,6 @@ const CalculatorPanel: React.FC<CalculatorPanelProps> = ({ isDarkMode }) => {
     if (module === 'batch') { setBatchAlpha(3.0); setBatchXf(0.5); }
   };
 
-  const handleExport = () => {
-    let data: any[] = [];
-    let filename = 'distillai-data.csv';
-
-    if (module === 'heating') { data = heatingData; filename = 'heating-curve.csv'; }
-    if (module === 'antoine') { data = antoineData; filename = `vapor-pressure-${selectedSubstance.name}.csv`; }
-    if (module === 'conductivity') { data = condData; filename = 'purity-log.csv'; }
-    if (module === 'flow') { data = flowData; filename = 'flow-production.csv'; }
-    if (module === 'power') { data = powerData; filename = 'power-consumption.csv'; }
-    if (module === 'mccabe') { data = mccabeData; filename = 'mccabe-thiele.csv'; }
-    if (module === 'batch') { data = batchData; filename = 'batch-distillation.csv'; }
-
-    if (!data.length) return;
-
-    // Convert to CSV
-    const headers = Object.keys(data[0]).join(',');
-    const rows = data.map(obj => Object.values(obj).join(',')).join('\n');
-    const csvContent = `data:text/csv;charset=utf-8,${headers}\n${rows}`;
-    
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-
   const MetricItem = ({ label, value, color }: { label: string, value: string, color: string }) => (
     <div className="flex flex-col">
        <span className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">{label}</span>
@@ -204,12 +175,6 @@ const CalculatorPanel: React.FC<CalculatorPanelProps> = ({ isDarkMode }) => {
               className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             >
               <RotateCcw size={14} /> Reset
-            </button>
-            <button 
-              onClick={handleExport}
-              className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/20 border border-brand-100 dark:border-brand-800 rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors"
-            >
-              <Download size={14} /> Export CSV
             </button>
           </div>
         </div>
