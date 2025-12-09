@@ -1,17 +1,28 @@
+export enum AppView {
+  CALCULATOR = 'calculator',
+  MAINTENANCE = 'maintenance',
+  PROCEDURES = 'procedures',
+  CHAT = 'chat',
+}
+
+export enum AppMode {
+  SEARCH = 'search',
+  EXPERT = 'expert',
+}
+
 export interface Message {
   id: string;
   role: 'user' | 'model';
   text: string;
   timestamp: number;
-  images?: string[]; // base64 strings
-  chartData?: Array<Record<string, string | number>>; // Array of objects for charting
-  fileName?: string;
+  images?: string[];
+  chartData?: Array<Record<string, string | number>>;
   groundingMetadata?: {
     webSearchQueries?: string[];
     groundingChunks?: Array<{
       web?: {
-        uri: string;
-        title: string;
+        uri?: string;
+        title?: string;
       };
     }>;
   };
@@ -21,18 +32,7 @@ export interface ChatSession {
   id: string;
   title: string;
   messages: Message[];
-  createdAt: number;
   lastModified: number;
-}
-
-export enum AppMode {
-  EXPERT = 'expert',
-  SEARCH = 'search',
-}
-
-export enum AppView {
-  CHAT = 'chat',
-  CALCULATOR = 'calculator',
 }
 
 export interface AntoineParams {

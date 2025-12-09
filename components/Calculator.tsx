@@ -83,7 +83,11 @@ const FormulaBox = ({ title, formula }: { title: string, formula: string }) => (
 
 type ModuleType = 'heating' | 'antoine' | 'conductivity' | 'flow' | 'power' | 'mccabe' | 'batch';
 
-const CalculatorPanel: React.FC = () => {
+interface CalculatorPanelProps {
+  isDarkMode: boolean;
+}
+
+const CalculatorPanel: React.FC<CalculatorPanelProps> = ({ isDarkMode }) => {
   const [module, setModule] = useState<ModuleType>('heating');
 
   // -- Heating State (Temperature) --
@@ -131,6 +135,13 @@ const CalculatorPanel: React.FC = () => {
        <span className={`text-lg font-bold ${color}`}>{value}</span>
     </div>
   );
+
+  // Theme Constants for Charts
+  const gridColor = isDarkMode ? '#334155' : '#e2e8f0';
+  const axisTextColor = isDarkMode ? '#94a3b8' : '#64748b';
+  const tooltipBg = isDarkMode ? '#1e293b' : '#ffffff';
+  const tooltipColor = isDarkMode ? '#f8fafc' : '#1e293b';
+  const tooltipBorder = isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0';
 
   return (
     <div className="h-full w-full bg-slate-50 dark:bg-slate-950 overflow-y-auto animate-in fade-in duration-300">
@@ -334,10 +345,10 @@ const CalculatorPanel: React.FC = () => {
                             <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
                           </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <YAxis label={{ value: 'Temperature (°C)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <YAxis label={{ value: 'Temperature (°C)', angle: -90, position: 'insideLeft', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: tooltipBorder, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: tooltipBg, color: tooltipColor }} />
                         <Area type="monotone" dataKey="temperature" stroke="#f97316" strokeWidth={3} fill="url(#colorTemp)" isAnimationActive={false} />
                      </AreaChart>
                    ) : module === 'antoine' ? (
@@ -348,10 +359,10 @@ const CalculatorPanel: React.FC = () => {
                             <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
                           </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-                        <XAxis dataKey="temperature" label={{ value: 'Temperature (°C)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <YAxis label={{ value: 'Pressure (mmHg)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+                        <XAxis dataKey="temperature" label={{ value: 'Temperature (°C)', position: 'bottom', offset: 0, fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <YAxis label={{ value: 'Pressure (mmHg)', angle: -90, position: 'insideLeft', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: tooltipBorder, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: tooltipBg, color: tooltipColor }} />
                         <Area type="monotone" dataKey="pressure" stroke="#8b5cf6" strokeWidth={3} fill="url(#colorPress)" isAnimationActive={false} />
                         <ReferenceLine y={760} stroke="#ef4444" label="1 atm" strokeDasharray="3 3" />
                       </AreaChart>
@@ -363,51 +374,51 @@ const CalculatorPanel: React.FC = () => {
                             <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                           </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <YAxis label={{ value: 'Conductivity (µS/cm)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <YAxis label={{ value: 'Conductivity (µS/cm)', angle: -90, position: 'insideLeft', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: tooltipBorder, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: tooltipBg, color: tooltipColor }} />
                         <Area type="monotone" dataKey="conductivity" stroke="#10b981" strokeWidth={3} fill="url(#colorCond)" isAnimationActive={false} />
                       </AreaChart>
                    ) : module === 'flow' ? (
                       <ComposedChart data={flowData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <YAxis yAxisId="left" label={{ value: 'Flow (mL/min)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <YAxis yAxisId="right" orientation="right" label={{ value: 'Total (L)', angle: 90, position: 'insideRight', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <YAxis yAxisId="left" label={{ value: 'Flow (mL/min)', angle: -90, position: 'insideLeft', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <YAxis yAxisId="right" orientation="right" label={{ value: 'Total (L)', angle: 90, position: 'insideRight', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: tooltipBorder, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: tooltipBg, color: tooltipColor }} />
                         <Legend verticalAlign="top" height={36}/>
                         <Area yAxisId="left" type="monotone" dataKey="flowRate" fill="#3b82f6" stroke="#3b82f6" fillOpacity={0.1} name="Flow Rate" isAnimationActive={false} />
                         <Line yAxisId="right" type="monotone" dataKey="totalVolume" stroke="#f59e0b" strokeWidth={3} dot={false} name="Total Volume" isAnimationActive={false} />
                       </ComposedChart>
                    ) : module === 'power' ? (
                       <ComposedChart data={powerData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <YAxis yAxisId="left" label={{ value: 'Energy (kWh)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <YAxis yAxisId="right" orientation="right" label={{ value: 'Cost ($)', angle: 90, position: 'insideRight', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={false} />
-                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+                        <XAxis dataKey="time" label={{ value: 'Time (minutes)', position: 'bottom', offset: 0, fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <YAxis yAxisId="left" label={{ value: 'Energy (kWh)', angle: -90, position: 'insideLeft', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <YAxis yAxisId="right" orientation="right" label={{ value: 'Cost ($)', angle: 90, position: 'insideRight', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={false} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: tooltipBorder, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: tooltipBg, color: tooltipColor }} />
                         <Legend verticalAlign="top" height={36}/>
                         <Bar yAxisId="left" dataKey="energy" fill="#eab308" name="Energy (kWh)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
                         <Line yAxisId="right" type="monotone" dataKey="cost" stroke="#22c55e" strokeWidth={3} dot={false} name="Cost ($)" isAnimationActive={false} />
                       </ComposedChart>
                    ) : module === 'mccabe' ? (
                      <LineChart data={mccabeData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" strokeOpacity={0.5} />
-                        <XAxis dataKey="x" type="number" domain={[0, 1]} label={{ value: 'x (Liquid Phase)', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
-                        <YAxis domain={[0, 1]} label={{ value: 'y (Vapor Phase)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
-                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} strokeOpacity={0.5} />
+                        <XAxis dataKey="x" type="number" domain={[0, 1]} label={{ value: 'x (Liquid Phase)', position: 'bottom', offset: 0, fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={{ stroke: gridColor }} />
+                        <YAxis domain={[0, 1]} label={{ value: 'y (Vapor Phase)', angle: -90, position: 'insideLeft', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={{ stroke: gridColor }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: tooltipBorder, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: tooltipBg, color: tooltipColor }} />
                         <Legend verticalAlign="top" height={36}/>
-                        <Line name="y=x" type="monotone" dataKey="xLine" stroke="#cbd5e1" strokeDasharray="5 5" strokeWidth={1} dot={false} isAnimationActive={false} />
+                        <Line name="y=x" type="monotone" dataKey="xLine" stroke={axisTextColor} strokeDasharray="5 5" strokeWidth={1} dot={false} isAnimationActive={false} />
                         <Line name="Equilibrium" type="monotone" dataKey="yEq" stroke="#3b82f6" strokeWidth={3} dot={false} isAnimationActive={false} />
                         <Line name="Operating Line" type="monotone" dataKey="yOp" stroke="#f59e0b" strokeWidth={2} dot={false} isAnimationActive={false} />
                      </LineChart>
                    ) : (
                       <LineChart data={batchData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                        <XAxis dataKey="percentDistilled" label={{ value: '% Distilled', position: 'bottom', offset: 0, fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
-                        <YAxis domain={[0, 1]} label={{ value: 'Mole Fraction', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} tickLine={false} axisLine={{ stroke: '#cbd5e1' }} />
-                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1e293b', color: '#f8fafc' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+                        <XAxis dataKey="percentDistilled" label={{ value: '% Distilled', position: 'bottom', offset: 0, fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={{ stroke: gridColor }} />
+                        <YAxis domain={[0, 1]} label={{ value: 'Mole Fraction', angle: -90, position: 'insideLeft', fill: axisTextColor, fontSize: 12 }} tick={{ fill: axisTextColor }} tickLine={false} axisLine={{ stroke: gridColor }} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: tooltipBorder, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: tooltipBg, color: tooltipColor }} />
                         <Legend verticalAlign="top" height={36}/>
                         <Line name="Residue (x_w)" type="monotone" dataKey="residueComposition" stroke="#10b981" strokeWidth={3} dot={false} isAnimationActive={false} />
                         <Line name="Distillate (x_d)" type="monotone" dataKey="distillateComposition" stroke="#f59e0b" strokeWidth={2} strokeDasharray="3 3" dot={false} isAnimationActive={false} />
